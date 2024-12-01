@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { Comment, User } from './types';
 const dbClient = require('../../db');
 const commentsRouter = require('express').Router();
 
@@ -14,7 +15,7 @@ commentsRouter.get('/', async (req: Request, res: Response) => {
         const currentDate = new Date().toISOString().split('T')[0];
         const query = `SELECT * FROM comments WHERE created_at::date = '${currentDate}'`;
         const response = await dbClient.query(query);
-        const comments = response.rows;
+        const comments: Comment[] = response.rows;
         return res.status(200).json(comments);
     } catch (e) {
         console.error(e);
@@ -34,7 +35,7 @@ commentsRouter.get('/', async (req: Request, res: Response) => {
  */
 
 commentsRouter.post('/', async (req: Request, res: Response) => {
-    const { content, username } = req.body ?? {} as { content: string, username: string };
+    const { content, username } = req.body ?? {};
     if (!content || !username) {
         return res.status(400).json({ error: 'Missing required parameter(s): content, username' });
     }
@@ -44,12 +45,12 @@ commentsRouter.post('/', async (req: Request, res: Response) => {
 
         const userQuery = `SELECT id FROM users WHERE username = '${username}'`;
         const userResponse = await dbClient.query(userQuery);
-        const userId = userResponse.rows[0].id;
+        const user: User = userResponse.rows[0];
 
         const currentDate = new Date().toISOString();
-        const query = `INSERT INTO comments (content, user_id, created_at) VALUES ('${content}', '${userId}', '${currentDate}') RETURNING *`;
+        const query = `INSERT INTO comments (content, user_id, created_at) VALUES ('${content}', '${user.id}', '${currentDate}') RETURNING *`;
         const response = await dbClient.query(query);
-        const data = response.rows[0];
+        const data: Comment[] = response.rows[0];
         
         return res.status(200).json(data);
     } catch (e){
