@@ -2,13 +2,19 @@ CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(30) NOT NULL UNIQUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+);
 
 CREATE TABLE IF NOT EXISTS comments (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     content TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+);
 
--- TODO: Add a table for daily songs
+CREATE TABLE IF NOT EXISTS songs (
+    id INTEGER PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    artist VARCHAR(100) NOT NULL,
+    album VARCHAR(100),
+    featured_date DATE
+);

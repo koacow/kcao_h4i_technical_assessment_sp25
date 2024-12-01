@@ -34,21 +34,28 @@ commentsRouter.get('/', async (req: Request, res: Response) => {
  */
 
 commentsRouter.post('/', async (req: Request, res: Response) => {
-    const { content, username } = req.body;
+    const { content, username } = req.body ?? {} as { content: string, username: string };
     if (!content || !username) {
         return res.status(400).json({ error: 'Missing required parameter(s): content, username' });
     }
     try {
+        const upsertQuery = `INSERT INTO users (username) VALUES ('${username}') ON CONFLICT DO NOTHING`;
+        await dbClient.query(upsertQuery);
+
+        const userQuery = `SELECT id FROM users WHERE username = '${username}'`;
+        const userResponse = await dbClient.query(userQuery);
+        const userId = userResponse.rows[0].id;
+
         const currentDate = new Date().toISOString();
-        const query = `INSERT INTO comments (content, username, created_at) VALUES ('${content}', '${username}', '${currentDate}') RETURNING *`;
+        const query = `INSERT INTO comments (content, user_id, created_at) VALUES ('${content}', '${userId}', '${currentDate}') RETURNING *`;
         const response = await dbClient.query(query);
         const data = response.rows[0];
         
-        const upsertQuery = `INSERT INTO users (username) VALUES ('${username}') ON CONFLICT DO NOTHING`;
-        await dbClient.query(upsertQuery);
         return res.status(200).json(data);
     } catch (e){
         console.error(e);
         return res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+module.exports = commentsRouter;    
