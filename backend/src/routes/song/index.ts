@@ -1,6 +1,5 @@
-import { Router } from 'express';
-
-const songRouter: Router = require('express').Router();
+import { Request, Response } from 'express';
+const songRouter = require('express').Router();
 const axios = require('axios');
 require('dotenv').config();
 const GENIUS_ENDPOINT: string = 'https://api.genius.com';
@@ -14,7 +13,8 @@ const GENIUS_ACCESS_TOKEN: string = process.env.GENIUS_ACCESS_TOKEN;
  * @return {array<Song>} 200 - An array of 3 random songs
  * @return {Error} 500 - Internal server error
  */
-songRouter.get('/', async (req, res) => {
+// TODO: make this endpoint return 3 random songs daily and save them to the database
+songRouter.get('/', async (req: Request, res: Response) => {
     try {
         const response = await axios.get(`${GENIUS_ENDPOINT}/songs/`, {
             headers: {
@@ -27,10 +27,10 @@ songRouter.get('/', async (req, res) => {
         });
 
         const songs = response.data;
-        res.status(200).json(songs);
+        return res.status(200).json(songs);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Internal server error' });
+        return res.status(500).json({ error: 'Internal server error' });
     }
 });
 
