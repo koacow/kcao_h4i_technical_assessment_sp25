@@ -16,16 +16,16 @@ const dbClient = require('../../db');
 songRouter.get('/', async (req: Request, res: Response) => {
     try {
         const currentDate = new Date().toISOString().split('T')[0];
-        const query = `SELECT * FROM songs WHERE featured_date = '${currentDate}'`;
-        const response = await dbClient.query(query);
+        const query = `SELECT * FROM songs WHERE featured_date = $1`;
+        const response = await dbClient.query(query, [currentDate]);
         const dailySongs: Song[] = response.rows;
         if (dailySongs.length > 0) {
             return res.status(200).json(dailySongs);
         }
         const newSongs: Song[] = await fetchRandomSongs();
         for (const song of newSongs) {
-            const insertQuery = `INSERT INTO songs (id, title, artist, thumbnail_url, genius_url, featured_date) VALUES ('${song.id}', '${song.title}', '${song.artist}', '${song.thumbnail_url}', '${song.genius_url}', '${currentDate}')`;
-            await dbClient.query(insertQuery);
+            const insertQuery = `INSERT INTO songs (id, title, artist, thumbnail_url, genius_url, featured_date) VALUES ($1, $2, $3, $4, $5, $6)`;
+            await dbClient.query(insertQuery, [song.id, song.title, song.artist, song.thumbnail_url, song.genius_url, currentDate]);
         }
         return res.status(200).json(newSongs);
     } catch (error) {

@@ -18,6 +18,7 @@ commentsRouter.get('/', async (req: Request, res: Response) => {
             FROM comments
             JOIN users ON comments.user_id = users.id
             WHERE comments.created_at::date = $1
+            ORDER BY comments.created_at DESC
         `;
         const response = await dbClient.query(query, [currentDate]);
         const comments: Comment[] = response.rows;
@@ -45,11 +46,11 @@ commentsRouter.post('/', async (req: Request, res: Response) => {
         return res.status(400).json({ error: 'Missing required parameter(s): content, username' });
     }
     try {
-        const upsertQuery = `INSERT INTO users (username) VALUES ('${username}') ON CONFLICT DO NOTHING`;
-        await dbClient.query(upsertQuery);
+        const upsertQuery = `INSERT INTO users (username) VALUES ($1) ON CONFLICT DO NOTHING`;
+        await dbClient.query(upsertQuery, [username]);
 
-        const userQuery = `SELECT id FROM users WHERE username = '${username}'`;
-        const userResponse = await dbClient.query(userQuery);
+        const userQuery = `SELECT id FROM users WHERE username = $1`;
+        const userResponse = await dbClient.query(userQuery, [username]);
         const user: User = userResponse.rows[0];
 
         const currentDate = new Date().toISOString();
