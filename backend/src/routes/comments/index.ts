@@ -50,7 +50,7 @@ commentsRouter.post('/', async (req: Request, res: Response) => {
         const currentDate = new Date().toISOString();
         const query = `INSERT INTO comments (content, user_id, created_at) VALUES ('${content}', '${user.id}', '${currentDate}') RETURNING *`;
         const response = await dbClient.query(query);
-        const data: Comment[] = response.rows[0];
+        const data: Comment = response.rows[0];
         
         return res.status(200).json(data);
     } catch (e){

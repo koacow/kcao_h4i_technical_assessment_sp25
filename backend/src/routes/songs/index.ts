@@ -7,7 +7,7 @@ const dbClient = require('../../db');
 
 
 /**
- * GET /api/song
+ * GET /api/songs
  * @summary Fetches 3 daily songs from the database. If no songs are found, fetches 3 random songs from the Genius API and adds them to the database.
  * @tags song
  * @return {array<Song>} 200 - An array of 3 random songs
