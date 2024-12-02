@@ -3,7 +3,7 @@ import { Comment } from '../types/comments';
 
 const API_URL: string = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
 
-export const getFetchDailyComments: () => Promise<Comment[]> = async () => {
+export const fetchDailyComments: () => Promise<Comment[]> = async () => {
     const response = await axios.get(`${API_URL}/comments`);
     if (response.status !== 200) {
         throw new Error('Failed to fetch comments');
