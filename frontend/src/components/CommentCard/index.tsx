@@ -7,18 +7,20 @@ type CommentCardProps = {
   comment: Comment;
 };
 
+const toFormattedDate = (date: string) => {
+    const dateObj = new Date(date);
+    return dateObj.toLocaleString();
+}
+
 export default function CommentCard ({ comment }: CommentCardProps) {
     return (
-        <Card>
+        <Card className='text-left'>
             <CardContent>
+                <Typography variant="body2" color="text.secondary">
+                    {comment.username} | {toFormattedDate(comment.created_at)}
+                </Typography>
                 <Typography variant="h5" component="div">
                     {comment.content}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    {comment.user_id}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    {comment.created_at}
                 </Typography>
             </CardContent>
         </Card>

@@ -16,8 +16,8 @@ export default function NewCommentForm({ commentFormOpen, setCommentFormOpen }: 
 
     const handleSubmit = async () => {
         await addComment(
-            username,
-            comment
+            comment,
+            username
         );
         setComment('');
         setUsername('');
@@ -25,24 +25,35 @@ export default function NewCommentForm({ commentFormOpen, setCommentFormOpen }: 
 
     return (
         <Modal
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+            sx={{
+                bgcolor: 'background.paper',
+            }}
             open={commentFormOpen}
             onClose={() => setCommentFormOpen(false)}
         >
-            <Box>
+            <Box
+                className='p-4 flex flex-col gap-4'
+                component="form"
+                noValidate
+                autoComplete="off"
+            >
                 <TextField 
+                    className='self-start'
                     label="Username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                 />
                 <TextField
-                    label="New Comment"
+                    label="Comment e.g. 'Today's songs were great!'"
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                 />
                 <Button
+                    variant="contained"
                     onClick={handleSubmit}
                 >
-                    Submit
+                    Post
                 </Button>
             </Box>
         </Modal>

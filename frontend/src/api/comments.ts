@@ -13,8 +13,8 @@ export const fetchDailyComments: () => Promise<Comment[]> = async () => {
 
 export const addComment: ( content: string, username: string) => Promise<Comment> = async (content, username) => {
     const body = { content, username };
-    const response = await axios.post(`${API_URL}`, body);
-    if (response.status !== 201) {
+    const response = await axios.post(`${API_URL}/comments`, body);
+    if (response.status !== 200) {
         throw new Error('Failed to add comment');
     }
     return response.data;

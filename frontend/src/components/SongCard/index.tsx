@@ -14,7 +14,7 @@ export default function SongCard ({ song }: SongCardProps) {
         <Card>
             <CardMedia
                 component="img"
-                height="140"
+                className='h-52 md:h-60'
                 image={song.thumbnail_url || 'https://via.placeholder.com/300'}
                 alt={song.title}
             />

@@ -14,16 +14,19 @@ export default function SongCarousel() {
 
     if (isLoading) {
         return (
-            <Box>
-                <Skeleton variant="rectangular" width={300} height={300} />
-                <Skeleton variant="text" width={300} />
+            <Box className='flex w-full justify-evenly'>
+                {
+                    Array(3).fill(null).map((_, index) => (
+                        <Skeleton key={index} variant="rectangular" width={300} height={300} />
+                    ))
+                }
             </Box>
         )
     }
 
     else if (error) {
         return (
-            <Box>
+            <Box className='flex flex-col w-full items-center'>
                 <WarningAmberOutlined />
                 <Typography variant="h6">
                     An error occurred while fetching today's songs. Please try again later.
@@ -34,7 +37,7 @@ export default function SongCarousel() {
 
     else {
             return (
-                <Box>
+                <Box className='flex w-full justify-evenly'>
                     {songs?.map((song) => (
                         <SongCard key={song.id} song={song} />
                     ))}

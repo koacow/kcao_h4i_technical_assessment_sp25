@@ -38,7 +38,6 @@ createRoot(rootElement).render(
       <ThemeProvider theme={theme}>
         <App />
       </ThemeProvider>
-      <App />
     </QueryClientProvider>
   </StrictMode>,
 )

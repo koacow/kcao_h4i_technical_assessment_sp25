@@ -13,8 +13,13 @@ const commentsRouter = require('express').Router();
 commentsRouter.get('/', async (req: Request, res: Response) => {
     try {
         const currentDate = new Date().toISOString().split('T')[0];
-        const query = `SELECT * FROM comments WHERE created_at::date = '${currentDate}'`;
-        const response = await dbClient.query(query);
+        const query = `
+            SELECT comments.id, comments.content, comments.user_id, comments.created_at, users.username
+            FROM comments
+            JOIN users ON comments.user_id = users.id
+            WHERE comments.created_at::date = $1
+        `;
+        const response = await dbClient.query(query, [currentDate]);
         const comments: Comment[] = response.rows;
         return res.status(200).json(comments);
     } catch (e) {
@@ -48,9 +53,12 @@ commentsRouter.post('/', async (req: Request, res: Response) => {
         const user: User = userResponse.rows[0];
 
         const currentDate = new Date().toISOString();
-        const query = `INSERT INTO comments (content, user_id, created_at) VALUES ('${content}', '${user.id}', '${currentDate}') RETURNING *`;
-        const response = await dbClient.query(query);
-        const data: Comment = response.rows[0];
+        const query = `INSERT INTO comments (content, user_id, created_at) VALUES ($1, $2, $3) RETURNING *`;
+        const response = await dbClient.query(query, [content, user.id, currentDate]);
+        const data: Comment = {
+            ...response.rows[0],
+            username
+        }
         
         return res.status(200).json(data);
     } catch (e){

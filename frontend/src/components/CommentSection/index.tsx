@@ -4,7 +4,7 @@ import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import NewCommentForm from "../NewCommentForm";
 import IconButton from "@mui/material/IconButton";
-import Add from "@mui/icons-material/Add";
+import AddOutlined from "@mui/icons-material/AddOutlined";
 import WarningAmberOutlined from "@mui/icons-material/WarningAmberOutlined";
 import { useQuery } from "@tanstack/react-query";
 import { fetchDailyComments } from "../../api/comments";
@@ -40,9 +40,15 @@ export default function CommentSection() {
 
     else {
         return (
-            <Stack>
-                <IconButton onClick={() => setCommentFormOpen(true)}>
-                    <Add />
+            <Stack className='relative w-3/5 flex flex-col justify-start items-stretch mx-auto mt-5 p-5 gap-y-4'>
+                <IconButton
+                    className='absolute right-0 top-0 shadow-lg'
+                    onClick={() => setCommentFormOpen(true)}
+                    sx={{
+                        bgcolor: 'background.paper'
+                    }}
+                >
+                    <AddOutlined />
                 </IconButton>
                 <NewCommentForm
                     commentFormOpen={commentFormOpen}
