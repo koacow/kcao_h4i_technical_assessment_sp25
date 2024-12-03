@@ -1,14 +1,14 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ThemeProvider, createTheme } from '@mui/material';
+import { ThemeProvider, createTheme, responsiveFontSizes } from '@mui/material';
 import './index.css'
 import App from './App.tsx'
 
 const queryClient = new QueryClient();
 const rootElement = document.getElementById('root')!;
 
-const theme = createTheme({
+const theme = responsiveFontSizes(createTheme({
   typography:{
     fontFamily: 'Montserrat, sans-serif',
   },
@@ -49,7 +49,7 @@ const theme = createTheme({
       },
     },
   },
-});
+}));
 createRoot(rootElement).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>

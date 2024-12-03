@@ -25,15 +25,14 @@ export default function CommentSection({ currentDate }: CommentSectionProps) {
     if (isLoading) {
         return (
             <Stack>
-                <Skeleton variant="rectangular" width={300} height={300} />
-                <Skeleton variant="text" width={300} />
+                <Skeleton variant="rectangular" className="w-full" height={300} />
             </Stack>
         )
     }
 
     else if (error) {
         return (
-            <Stack>
+            <Stack className='flex flex-col w-full items-center'>
                 <WarningAmberOutlined />
                 <Typography variant="h6">
                     An error occurred while fetching today's comments. Please try again later.

@@ -12,7 +12,6 @@ type DateSwitchProps = {
 };
 
 export default function DateSwitch({ currentDate, incrementDate, decrementDate, incrementDisabled }: DateSwitchProps) {
-    console.log(new Date());
     return (
         <Box
             className='flex items-center justify-center gap-4 absolute top-4 right-4'
@@ -22,9 +21,8 @@ export default function DateSwitch({ currentDate, incrementDate, decrementDate, 
             >
                 <ArrowBack className='text-sm md:text-xl' />
             </IconButton>
-            <Typography
+            <Typography 
                 color='textSecondary'
-                className='text-sm md:text-xl'
             >
                 {currentDate.toDateString()}
             </Typography>

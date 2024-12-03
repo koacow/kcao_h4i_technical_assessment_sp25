@@ -19,7 +19,7 @@ export default function Home() {
                 Encore
             </Typography>
             <div
-                className='relative h-16'
+                className='relative h-10 md:h-16'
             >
                 <DateSwitch currentDate={currentDate} incrementDate={incrementDate} decrementDate={decrementDate} incrementDisabled={incrementDisabled} />
             </div>
