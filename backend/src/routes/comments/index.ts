@@ -5,14 +5,19 @@ const commentsRouter = require('express').Router();
 
 /**
  * GET /api/comments
- * @summary Fetches all of today's comments from the database
+ * @summary Fetches all comments from the database for the current date
  * @tags comments
- * @return {array<Comment>} 200 - An array of comments
+ * @return {Array<Comment>} 200 - An array of comments for the current date, along with the earliest available date and the queried date
+ * @return {Error} 400 - Bad request
+ * @return {Error} 404 - No comments found for the current date
  * @return {Error} 500 - Internal server error
  */
 commentsRouter.get('/', async (req: Request, res: Response) => {
+    const date = req.query.date as string;
+    if (!date || typeof date !== 'string') {
+        return res.status(400).json({ error: 'Missing required parameter: date' });
+    }
     try {
-        const currentDate = new Date().toISOString().split('T')[0];
         const query = `
             SELECT comments.id, comments.content, comments.user_id, comments.created_at, users.username
             FROM comments
@@ -20,7 +25,7 @@ commentsRouter.get('/', async (req: Request, res: Response) => {
             WHERE comments.created_at::date = $1
             ORDER BY comments.created_at DESC
         `;
-        const response = await dbClient.query(query, [currentDate]);
+        const response = await dbClient.query(query, [date]);
         const comments: Comment[] = response.rows;
         return res.status(200).json(comments);
     } catch (e) {

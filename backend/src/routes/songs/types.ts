@@ -5,3 +5,9 @@ export interface Song {
     thumbnail_url: string | null;
     genius_url: string;
 }
+
+export interface SongApiResponse {
+    earliestAvailableDate: string;
+    queriedDate: string;
+    songs: Song[];
+}
