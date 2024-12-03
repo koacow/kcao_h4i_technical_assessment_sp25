@@ -46,8 +46,8 @@ commentsRouter.get('/', async (req: Request, res: Response) => {
  */
 
 commentsRouter.post('/', async (req: Request, res: Response) => {
-    const { content, username } = req.body ?? {};
-    if (!content || !username) {
+    const { content, username } = req.body;
+    if (!content || !username || typeof content !== 'string' || typeof username !== 'string') {
         return res.status(400).json({ error: 'Missing required parameter(s): content, username' });
     }
     try {

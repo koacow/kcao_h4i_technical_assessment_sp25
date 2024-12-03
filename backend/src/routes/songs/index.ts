@@ -18,7 +18,7 @@ const dbClient = require('../../db');
  * @return {Error} 500 - Internal server error
  */
 songRouter.get('/', async (req: Request, res: Response) => {
-    const date = req.query.date as string;
+    const { date } = req.query;
     if (!date || typeof date !== 'string') {
         return res.status(400).json({ error: 'Missing required parameter: date' });
     }
