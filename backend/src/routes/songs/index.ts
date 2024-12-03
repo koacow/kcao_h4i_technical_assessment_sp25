@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Song } from './types';
+import { delimiter } from 'path';
 const { fetchRandomSongs } = require('./util');
 const songRouter = require('express').Router();
 require('dotenv').config();
@@ -27,7 +28,7 @@ songRouter.get('/', async (req: Request, res: Response) => {
         const dailySongs: Song[] = response.rows;
         if (dailySongs.length > 0) {
             return res.status(200).json(dailySongs);
-        } else if (dailySongs.length === 0 && new Date(date) === new Date()) {
+        } else if (dailySongs.length === 0 && date === new Date().toISOString().split('T')[0]) {
             const newSongs: Song[] = await fetchRandomSongs();
             for (const song of newSongs) {
                 const insertQuery = `INSERT INTO songs (id, title, artist, thumbnail_url, genius_url, featured_date) VALUES ($1, $2, $3, $4, $5, $6)`;
