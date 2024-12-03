@@ -19,8 +19,16 @@ export default function SongCard ({ song }: SongCardProps) {
                 alt={song.title}
             />
             <CardContent>
-                <Typography variant="h5" component="div">
-                    <Link href={song.genius_url} target="_blank" rel="noreferrer">
+                <Typography 
+                    variant="h5" 
+                    component="div"
+                >
+                    <Link 
+                        href={song.genius_url} 
+                        target="_blank" 
+                        rel="noreferrer" 
+                        className='hover:underline text-inherit no-underline'
+                    >
                         {song.title}
                     </Link>
                 </Typography>

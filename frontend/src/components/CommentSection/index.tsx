@@ -13,7 +13,7 @@ import { useState } from "react";
 
 export default function CommentSection() {
     const [ commentFormOpen, setCommentFormOpen ] = useState(false);
-    const { data: comments, isLoading, error } = useQuery<Comment[]>({
+    const { data: comments, isLoading, error, refetch } = useQuery<Comment[]>({
         queryKey: ['comments'],
         queryFn: fetchDailyComments
     });
@@ -53,6 +53,7 @@ export default function CommentSection() {
                 <NewCommentForm
                     commentFormOpen={commentFormOpen}
                     setCommentFormOpen={setCommentFormOpen}
+                    refetch={refetch}
                 />
                 {comments?.map((comment) => (
                     <CommentCard key={comment.id} comment={comment} />

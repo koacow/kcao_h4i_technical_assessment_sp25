@@ -12,8 +12,11 @@ function App() {
     <>
       <CssBaseline />
       <Container>
-        <Typography variant='h1'>
-          Song Discussion Board
+        <Typography 
+          variant='h1'
+          className='text-center'
+        >
+          Encore
         </Typography>
         <SongCarousel />
         <CommentSection />

@@ -37,7 +37,7 @@ export default function SongCarousel() {
 
     else {
             return (
-                <Box className='flex w-full justify-evenly'>
+                <Box className='flex w-full gap-4 lg:gap-8'>
                     {songs?.map((song) => (
                         <SongCard key={song.id} song={song} />
                     ))}

@@ -8,9 +8,10 @@ import Modal from "@mui/material/Modal";
 type NewCommentFormProps = {
     commentFormOpen: boolean;
     setCommentFormOpen: (open: boolean) => void;
+    refetch: () => void;
 }
 
-export default function NewCommentForm({ commentFormOpen, setCommentFormOpen }: NewCommentFormProps) {
+export default function NewCommentForm({ commentFormOpen, setCommentFormOpen, refetch }: NewCommentFormProps) {
     const [ comment, setComment ] = useState('');
     const [ username, setUsername ] = useState('');
 
@@ -21,6 +22,7 @@ export default function NewCommentForm({ commentFormOpen, setCommentFormOpen }: 
         );
         setComment('');
         setUsername('');
+        refetch();
     }
 
     return (
