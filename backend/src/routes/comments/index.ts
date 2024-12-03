@@ -73,4 +73,29 @@ commentsRouter.post('/', async (req: Request, res: Response) => {
     }
 });
 
+/**
+ * GET /api/comments/top-contributor-status
+ * @summary Gets the top_contributor status for a user by user_id
+ * @tags comments
+ * @param {number} query.user_id.required - The user_id to check for top_contributor status
+ * @return {boolean} 200 - Whether the user is a top contributor
+ * @return {Error} 400 - Bad request
+ * @return {Error} 500 - Internal server error
+ */
+commentsRouter.get('/top-contributor-status', async (req: Request, res: Response) => {
+    const { user_id } = req.query;
+    if (!user_id || typeof user_id !== 'string') {
+        return res.status(400).json({ error: 'Missing required parameter: user_id' });
+    }
+    try {
+        const query = `SELECT top_contributor FROM users WHERE id = $1`;
+        const response = await dbClient.query(query, [user_id]);
+        const topContributor = response.rows[0].top_contributor;
+        return res.status(200).json(topContributor);
+    } catch (e) {
+        console.error(e);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 module.exports = commentsRouter;    
