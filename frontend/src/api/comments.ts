@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Comment } from '../types/comments';
+import { QueryKey } from '@tanstack/react-query';
 
 const API_URL: string = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
 
@@ -9,7 +10,11 @@ const API_URL: string = import.meta.env.VITE_API_URL || 'http://localhost:4000/a
  * @returns {Comment[]} array of comments. Empty array if no comments are found.
  * @throws {Error} if request fails
  */
-export const fetchCommentsByDate: (date: Date) => Promise<Comment[]> = async (date = new Date()) => {
+export const fetchCommentsByDate: ({ queryKey }: { queryKey: QueryKey}) => Promise<Comment[]> = async ({ queryKey }) => {
+    const [ _ , date ] = queryKey;
+    if (!(date instanceof Date)) {
+        throw new Error('Invalid date');
+    }
     const params = {
         date: date.toISOString().split('T')[0],
     }

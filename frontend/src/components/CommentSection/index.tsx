@@ -7,15 +7,19 @@ import IconButton from "@mui/material/IconButton";
 import AddOutlined from "@mui/icons-material/AddOutlined";
 import WarningAmberOutlined from "@mui/icons-material/WarningAmberOutlined";
 import { useQuery } from "@tanstack/react-query";
-import { fetchDailyComments } from "../../api/comments";
+import { fetchCommentsByDate } from "../../api/comments";
 import { Comment } from "../../types/comments";
 import { useState } from "react";
 
-export default function CommentSection() {
+type CommentSectionProps = {
+    currentDate: Date;
+};
+
+export default function CommentSection({ currentDate }: CommentSectionProps) {
     const [ commentFormOpen, setCommentFormOpen ] = useState(false);
-    const { data: comments, isLoading, error, refetch } = useQuery<Comment[]>({
-        queryKey: ['comments'],
-        queryFn: fetchDailyComments
+    const { data: comments, isLoading, error, refetch } = useQuery<Comment[], Error>({
+        queryKey: ['comments', currentDate],
+        queryFn: fetchCommentsByDate
     });
 
     if (isLoading) {

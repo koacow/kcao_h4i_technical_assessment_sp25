@@ -3,13 +3,18 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import WarningAmberOutlined from '@mui/icons-material/WarningAmberOutlined';
 import Skeleton from '@mui/material/Skeleton';
-import { fetchDailySongs } from "../../api/songs";
+import { fetchSongsByDate } from "../../api/songs";
 import { useQuery } from "@tanstack/react-query";
+import { Song } from "../../types/songs";
 
-export default function SongCarousel() {
-    const { data: songs, isLoading, error } = useQuery({
-        queryKey: ['songs'],
-        queryFn: fetchDailySongs
+type SongCarouselProps = {
+    currentDate: Date;
+};
+
+export default function SongCarousel({ currentDate }: SongCarouselProps) {
+    const { data: songs, isLoading, error } = useQuery<Song[], Error>({
+        queryKey: ['songs', currentDate],
+        queryFn: fetchSongsByDate
     });
 
     if (isLoading) {
