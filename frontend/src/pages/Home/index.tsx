@@ -8,14 +8,21 @@ import DateSwitch from '../../components/DateSwitch';
 export default function Home() {
     const { currentDate, incrementDate, decrementDate, incrementDisabled } = useDate();
     return (
-        <Container>
+        <Container
+            className='w-4/5'
+        >
             <Typography 
                 variant='h1'
-                className='text-center'
+                className='text-center font-semibold tracking-wider'
+                color='primary'
             >
                 Encore
             </Typography>
-            <DateSwitch currentDate={currentDate} incrementDate={incrementDate} decrementDate={decrementDate} incrementDisabled={incrementDisabled} />
+            <div
+                className='relative h-16'
+            >
+                <DateSwitch currentDate={currentDate} incrementDate={incrementDate} decrementDate={decrementDate} incrementDisabled={incrementDisabled} />
+            </div>
             <SongCarousel currentDate={currentDate} />
             <CommentSection currentDate={currentDate} />
         </Container>

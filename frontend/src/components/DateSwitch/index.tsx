@@ -15,16 +15,21 @@ export default function DateSwitch({ currentDate, incrementDate, decrementDate, 
     console.log(new Date());
     return (
         <Box
-            className='flex items-center justify-center gap-4'
+            className='flex items-center justify-center gap-4 absolute top-4 right-4'
         >
-            <IconButton onClick={decrementDate}>
-                <ArrowBack />
+            <IconButton 
+                onClick={decrementDate}
+            >
+                <ArrowBack className='text-sm md:text-xl' />
             </IconButton>
-            <Typography>
+            <Typography
+                color='textSecondary'
+                className='text-sm md:text-xl'
+            >
                 {currentDate.toDateString()}
             </Typography>
             <IconButton onClick={incrementDate} disabled={incrementDisabled}>
-                <ArrowForward />
+                <ArrowForward className='text-sm md:text-xl' />
             </IconButton>
         </Box>
     )

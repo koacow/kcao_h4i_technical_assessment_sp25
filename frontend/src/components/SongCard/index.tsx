@@ -22,6 +22,7 @@ export default function SongCard ({ song }: SongCardProps) {
                 <Typography 
                     variant="h5" 
                     component="div"
+                    color='secondary'
                 >
                     <Link 
                         href={song.genius_url} 

@@ -22,7 +22,7 @@ export default function SongCarousel({ currentDate }: SongCarouselProps) {
             <Box className='flex w-full justify-evenly'>
                 {
                     Array(3).fill(null).map((_, index) => (
-                        <Skeleton key={index} variant="rectangular" width={300} height={300} />
+                        <Skeleton key={index} variant="rectangular" width={240} height={240} />
                     ))
                 }
             </Box>
@@ -42,7 +42,7 @@ export default function SongCarousel({ currentDate }: SongCarouselProps) {
 
     else {
             return (
-                <Box className='flex w-full gap-4 lg:gap-8'>
+                <Box className='flex w-full gap-4 lg:gap-8 justify-evenly'>
                     {songs?.map((song) => (
                         <SongCard key={song.id} song={song} />
                     ))}

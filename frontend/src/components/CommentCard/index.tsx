@@ -16,10 +16,10 @@ export default function CommentCard ({ comment }: CommentCardProps) {
     return (
         <Card className='text-left'>
             <CardContent>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="subtitle2" color="text.secondary">
                     {comment.username} | {toFormattedDate(comment.created_at)}
                 </Typography>
-                <Typography variant="h5" component="div">
+                <Typography variant="h6" component="div">
                     {comment.content}
                 </Typography>
             </CardContent>

@@ -49,7 +49,8 @@ export default function CommentSection({ currentDate }: CommentSectionProps) {
                     className='absolute right-0 top-0 shadow-lg'
                     onClick={() => setCommentFormOpen(true)}
                     sx={{
-                        bgcolor: 'background.paper'
+                        bgcolor: 'background.paper',
+                        color: 'secondary.main'
                     }}
                 >
                     <AddOutlined />
